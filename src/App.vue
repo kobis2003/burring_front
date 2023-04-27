@@ -43,7 +43,6 @@ div#banner-content {
     width: 800px;
     margin: 0 auto;
     padding: 10px;
-    border: 1px solid #000;
     text-align: center;
 }
 
