@@ -10,3 +10,5 @@ possible error case of the user.
 -> The result attribute corresponding to the result of the burring process is sent by the backend in String. It should
 be a JSON directly, but as SQL lite just save text and no JSON, it would require some more entities (I don't have the time).
 Furthermore there is also None instead of null in the JSON
+
+-> Text that are visible to the user should be put into a bundle

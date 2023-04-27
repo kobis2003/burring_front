@@ -4,12 +4,14 @@
           <h3>Here is a JSON example you can you use: <a v-bind:href="'./input-lenna-bee-voiture.json'" download>example file</a> </h3>
           <div class="main-processing-part">
               <div>
-                <label for="input">Chose your JSON file: </label>
-                <input type="file" id="input" accept=".json" @change="onFileChange" class="blurring-input">
+                <label for="blurring-input-file">Chose your JSON file: </label>
+                <input type="file" id="blurring-input-file" accept=".json" @change="onFileChange" class="blurring-input">
               </div>
               <div>
-                  <input type="button" @click="startProcess()" :disabled="jsonContent == '' || loading || currentRun" value="Let's blurr it!" class="process-button">
-
+                  <input type="button" @click="startProcess()" :disabled="jsonContent == '' || loading || currentRun" value="Let's blur it!" class="process-button">
+              </div>
+              <div>
+                  <input type="button" @click="reInit()" v-if="currentProcessResult" value="Clear" class="process-button">
               </div>
               <div class="blurring-progress">
                   <RadialProgressBar v-if="currentRun && loading"
@@ -39,6 +41,9 @@
           <div class="blurring-result"  v-for="initial_image  in currentProcessResult!.initial_images" :key="initial_image.name">
               <div class="initial_image">
                   <img :src="'data:image/png;base64, ' + initial_image.data" >
+                  <div class="text">
+                      {{ initial_image.name }}
+                  </div>
               </div>
               <carousel :items-to-show="1" class="blurring-carousel">
                   <slide class="blurring-slide" v-for="(result_image, index) in currentProcessResult.image_results.filter(x => x.image_result.name == initial_image.name)" :key="result_image.image_result.name">
@@ -97,11 +102,11 @@ export default defineComponent({
   },
   methods: {
       reInit() {
-          this.jsonContent = ""
           this.currentRun = null
           this.currentProcessResult = null
           this.loading = false
           this.shareInPercent = 0
+          this.errorMessage = ""
       },
       async onFileChange(e: any) {
           // re initialization of the attribute
@@ -131,10 +136,15 @@ export default defineComponent({
               this.currentRun = response.data
               console.log("currentRun => " + JSON.stringify(this.currentRun));
               this.tryProcessResult()
-          }).catch((e: Error) => {
+          }).catch((e: any) => {
               console.error(e);
-              this.errorMessage = e.message
               this.reInit()
+              if (e.response && e.response.data && e.response.data.detail) {
+                  this.errorMessage = e.response.data.detail
+              } else {
+                  this.errorMessage = e.message
+              }
+
           })
       },
       readCurrentProcess() {
@@ -144,8 +154,8 @@ export default defineComponent({
                   this.currentRun = response.data
                   this.tryProcessResult()
                   if(this.currentRun!.error_message) {
-                      this.errorMessage = this.currentRun!.error_message!
                       this.reInit()
+                      this.errorMessage = this.currentRun!.error_message!
                   }
                   this.refresh_share_in_percent()
               })
