@@ -10,7 +10,7 @@ Go to the burring_back project and start the server from there (the indications 
 Run `npm install` on a terminal on the project folder
 
 ### Start the server
-Run `npm serve` on a terminal on the project folder
+Run `npm run serve` on a terminal on the project folder
 The address will be displayed on the terminal.
 
 ### test the blurring mechanism
