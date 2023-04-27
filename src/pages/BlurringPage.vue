@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="text">
-                        {{ initial_image.name + ' filter : ' + JSON.stringify(result_image.image_filter)  }}
+                        {{ initial_image.name +' ' + pretty_print(result_image.image_filter)  }}
                     </div>
                   </slide>
                   <template #addons>
@@ -73,7 +73,7 @@
 import { defineComponent } from "vue";
 import BlurringRunService from "@/services/BlurringRunService";
 import {BlurringRun} from "@/models/Run";
-import {ProcessOutput} from "@/models/ProccessData";
+import {Filter, ProcessOutput} from "@/models/ProccessData";
 import RadialProgressBar from "vue3-radial-progress";
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
@@ -117,6 +117,20 @@ export default defineComponent({
           const file: File = files[0]
           this.jsonContent = await file.text()
           console.log(this.jsonContent)
+      },
+      pretty_print(filter: Filter) {
+          if(filter.params) {
+              let params = "("
+              const keys = Object.keys(filter.params);
+              for (let i = 0; i < keys.length; i++) {
+                  params += keys[i] + '=' + filter.params[keys[i]]
+                  if(i < keys.length - 1)
+                      params += ','
+              }
+              params = params + ")"
+              return filter.name + " with " + params
+          }
+          return filter.name
       },
       refresh_share_in_percent() {
           if(this.currentRun) {
