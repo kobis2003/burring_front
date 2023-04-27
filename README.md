@@ -14,7 +14,7 @@ Run `npm run serve` on a terminal on the project folder
 The address will be displayed on the terminal.
 
 ### test the blurring mechanism
-Once you start the server, the page displayed will offer you to dowload a test file, so that you can test the blurring mechanism.
+Once you start the server, the page displayed will offer you to download a test file, so that you can test the blurring mechanism.
 You can edit it to try your own input. For the specification, it is in the backend READ ME, but the parameters of the filter
 comes from the ImageFilter module of the PILLOW library (https://www.tutorialspoint.com/python_pillow/python_pillow_blur_an_image.htm)
 
