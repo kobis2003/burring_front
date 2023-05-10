@@ -10,7 +10,7 @@ describe('Test the entity parsing in typescript', () => {
         let blurringRun: BlurringRun = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../files/finished_run_response.json'), 'utf-8'))
         expect(blurringRun).not.toBeNull()
         // now we test the result of the process parsing
-        let processOutput: ProcessOutput = BlurringRunService.get_result_from_str(blurringRun.result!)
+        let processOutput: ProcessOutput = BlurringRunService.getResultFromStr(blurringRun.result!)
         expect(processOutput).not.toBeNull()
     })
 

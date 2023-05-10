@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="text">
-                        {{ initial_image.name +' ' + pretty_print(result_image.image_filter)  }}
+                        {{ initial_image.name + ' ' + prettyPrint(result_image.image_filter) }}
                     </div>
                   </slide>
                   <template #addons>
@@ -118,7 +118,7 @@ export default defineComponent({
           this.jsonContent = await file.text()
           console.log(this.jsonContent)
       },
-      pretty_print(filter: Filter) {
+      prettyPrint(filter: Filter) {
           if(filter.params) {
               let params = "("
               const keys = Object.keys(filter.params);
@@ -132,20 +132,20 @@ export default defineComponent({
           }
           return filter.name
       },
-      refresh_share_in_percent() {
+      refreshShareInPercent() {
           if(this.currentRun) {
               this.shareInPercent = Math.trunc((this.currentRun.nb_of_completed_process / this.currentRun.nb_of_total_process) * 100)
           }
       },
       tryProcessResult() {
           if(this.currentRun && this.currentRun.result){
-              this.currentProcessResult = BlurringRunService.get_result_from_str(this.currentRun.result)
+              this.currentProcessResult = BlurringRunService.getResultFromStr(this.currentRun.result)
               this.loading = false;
           }
       },
       startProcess() {
           this.loading = true
-          BlurringRunService.start_process(this.jsonContent).then((response: any) => {
+          BlurringRunService.startProcess(this.jsonContent).then((response: any) => {
               console.log("currentRun data type => " + typeof response.data);
               this.currentRun = response.data
               console.log("currentRun => " + JSON.stringify(this.currentRun));
@@ -163,7 +163,7 @@ export default defineComponent({
       },
       readCurrentProcess() {
           if(this.currentRun && this.currentRun.id && this.currentRun.status == 'RUNNING') {
-              BlurringRunService.get_run(this.currentRun.id).then((response: any) => {
+              BlurringRunService.getRun(this.currentRun.id).then((response: any) => {
                   console.log("refreshing currentRun")
                   this.currentRun = response.data
                   this.tryProcessResult()
@@ -171,7 +171,7 @@ export default defineComponent({
                       this.reInit()
                       this.errorMessage = this.currentRun!.error_message!
                   }
-                  this.refresh_share_in_percent()
+                  this.refreshShareInPercent()
               })
           }
       }
